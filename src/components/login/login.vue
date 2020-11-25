@@ -10,7 +10,7 @@
 export default {
     data () {
         return {
-            msg: '我是home组件'
+            msg: '我是Login组件'
         }
     }
 }
