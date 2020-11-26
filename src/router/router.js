@@ -7,6 +7,8 @@ import phone from '../components/childPage/phone.vue'
 import tablet from '../components/childPage/tablet.vue'
 import computer from '../components/childPage/computer.vue'
 import login from '../components/login/login.vue'
+import userM from '../components/systemManagement/userManagement.vue'
+import roleM from '../components/systemManagement/roleManagement.vue'
 
 
 Vue.use(VueRouter)
@@ -27,6 +29,14 @@ const routes = [
             {
                 path: 'computer',
                 component: computer
+            },
+            {
+                path: 'userM',
+                component: userM
+            },
+            {
+                path: 'roleM',
+                component: roleM
             },
             {
                 path: "",
