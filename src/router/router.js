@@ -2,10 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import home from '../components/home/home.vue'
-import user from '../components/user/user.vue'
-import phone from '../components/childPage/phone.vue'
-import tablet from '../components/childPage/tablet.vue'
-import computer from '../components/childPage/computer.vue'
+import childhome from '../components/childPage/home.vue'
 import login from '../components/login/login.vue'
 import userM from '../components/systemManagement/userManagement.vue'
 import roleM from '../components/systemManagement/roleManagement.vue'
@@ -17,41 +14,38 @@ const routes = [
     {
         path: '/home',
         component: home,
+        meta: {index: 1},
         children: [
             {
-                path: 'phone',
-                component: phone
+                name: 'childhome',
+                path: '/childhome',
+                component: childhome,
+                meta: {index: 1}
             },
             {
-                path: 'tablet',
-                component: tablet
-            },
-            {
-                path: 'computer',
-                component: computer
-            },
-            {
+                name: 'userM',
                 path: 'userM',
-                component: userM
+                component: userM,
+                meta: {index: 2}
             },
             {
+                name: 'roleM',
                 path: 'roleM',
-                component: roleM
+                component: roleM,
+                meta: {index: 2}
             },
             {
                 path: "",
-                component: phone
+                component: childhome,
+                meta: {index: 1}
             }
         ]
     },
-    /*新增user路径，配置了动态的id*/
     {
-        path: "/user/:id",
-        component: user
-    },
-    {
+        name: 'login',
         path: "/login",
-        component: login
+        component: login,
+        meta: {index: 1}
     },
     {
         path: '/', 

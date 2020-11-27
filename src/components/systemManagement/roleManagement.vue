@@ -1,7 +1,6 @@
 <template>
   <div id="user">
     <a-row>
-
       <a-col :span="17">
         <div class="searchOther">
           <div class="searchBar">
@@ -61,6 +60,7 @@ export default {
   height: 100%;
   width: 100%;
   background: #ffffff;
+  padding: 20px;
 }
 
 .searchBar {

@@ -1,5 +1,5 @@
 <template>
-    <div id="phone">
+    <div id="home">
     <a-row type="flex" justify="space-around">
       <a-col :span="4">
         <card></card>
@@ -43,9 +43,10 @@ export default {
 </script>
 
 <style scoped>
-#phone {
+#home {
     background-color: #EFF1F4;
     height: 100%;
+    padding: 20px;
 }
 
 #chart {
@@ -53,6 +54,12 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    
 }
+
+.ant-btn {
+    height: 28px;
+    padding: 0 12px;
+    font-size: 12px;
+}
+
 </style>

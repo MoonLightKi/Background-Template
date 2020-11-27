@@ -10,13 +10,11 @@
       :inline-collapsed="collapsed"
     >
     <a-menu-item @click="handleMenuClick('/home')">
-    <span>
-      <a-icon type="dashboard" />首页
-    </span>
+      <a-icon type="dashboard" /><span>首页</span>
     </a-menu-item>
       <a-sub-menu v-for="(menuItem, index) in MenuList" :key="index">
         <span slot="title"><a-icon :type="menuItem.IconInfo" /><span>{{menuItem.Name}}</span></span>
-        <a-menu-item v-for="(childItem, childIndex) in menuItem.child" :key="childIndex" @click="handleMenuClick(childItem.url)">
+        <a-menu-item v-for="(childItem, childIndex) in menuItem.child" :key="childIndex" @click="handleMenuClick(childItem.url, childItem.Name)">
           {{childItem.Name}}
         </a-menu-item>
       </a-sub-menu>
@@ -32,10 +30,15 @@
                 :type="collapsed ? 'menu-unfold' : 'menu-fold'"
                 @click="() => (collapsed = !collapsed)"
               />
-              <a-breadcrumb>
-                <a-breadcrumb-item>首页</a-breadcrumb-item>
-                <a-breadcrumb-item>系统管理</a-breadcrumb-item>
-                <a-breadcrumb-item>用户管理</a-breadcrumb-item>
+              <a-breadcrumb :routes="routes">
+                <template slot="itemRender" slot-scope="{route, routes, paths}">
+                  <span v-if="routes.indexOf(route) === routes.length - 1">
+                    {{route.breadcrumbName}}
+                  </span>
+                  <router-link v-else :to="paths.join('/')">
+                    {{route.breadcrumbName}}
+                  </router-link>
+                </template>
               </a-breadcrumb>
             </div>
           </a-col>
@@ -63,12 +66,16 @@
       <a-layout-content class="content"
         :style="{minHeight: '280px' }"
       >
+      <transition class="Router" :name="transitionName">
         <router-view></router-view>
+      </transition>
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
+
 <script>
+
 import Header from '../header/header'
 
 let MenuList = [
@@ -85,6 +92,35 @@ let MenuList = [
 
 ]
 
+const routes =  [
+          {
+            path: 'index',
+            breadcrumbName: 'home',
+          },
+          {
+            path: 'first',
+            breadcrumbName: 'first',
+            children: [
+              {
+                path: '/general',
+                breadcrumbName: 'General',
+              },
+              {
+                path: '/layout',
+                breadcrumbName: 'Layout',
+              },
+              {
+                path: '/navigation',
+                breadcrumbName: 'Navigation',
+              },
+            ],
+          },
+          {
+            path: 'second',
+            breadcrumbName: 'second',
+          },
+]
+
 export default {
   components: {Header},
   data() {
@@ -95,13 +131,12 @@ export default {
         width: '100%', height:'30px', margin: '10px', background: '#ffffff'
       },
       tagName: 'phone',
-      MenuList: MenuList
+      MenuList: MenuList,
+      routes: routes,
+      transitionName: 'slide-right'
     };
   },
   methods: {
-    toPage() {
-
-    },
     handleClose(removedTag) {
       const tags = this.tags.filter(tag => tag !== removedTag)
       this.tags = tags
@@ -118,15 +153,26 @@ export default {
         this.tags = tags
       }
     },
-    handleMenuClick(url){
+    handleMenuClick(url, tagName){
       this.$router.push(url)
+      this.setTagName(tagName)
     }
   },
   mounted() {
-    console.log(this.MenuList)
+
+  },
+  watch: {
+    '$route' (to, from) {
+      const toIndex = to.meta.index
+      const fromIndex = from.meta.index
+      this.transitionName = toIndex > fromIndex ? 'slide-right' : 'slide-left'
+    }
   }
 };
+
+
 </script>
+
 <style>
 #components-layout-demo-custom-trigger {
     height: 100%;
@@ -175,5 +221,40 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+}
+
+.Router{
+position: relative;
+}
+.Router>*{
+position: absolute;
+width: 100%;
+text-align: center;
+}
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+will-change: transform;
+transition: all .5s;
+}
+
+.slide-right-enter {
+transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-right-leave-active {
+opacity: 0.64;
+transform: translateX(100%);
+}
+
+.slide-left-enter {
+opacity: 0.64;
+transform: translateX(100%);
+}
+
+.slide-left-leave-active {
+opacity: 0.64;
+transform: translateX(-100%);
 }
 </style>

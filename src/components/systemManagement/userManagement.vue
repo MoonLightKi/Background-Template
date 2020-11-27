@@ -17,36 +17,48 @@
                 <a-menu-item key="2"> <a-icon type="user" />2nd menu item </a-menu-item>
                 <a-menu-item key="3"> <a-icon type="user" />3rd item </a-menu-item>
               </a-menu>
-              <a-button style="margin-left: 8px"> Button <a-icon type="down" /> </a-button>
+              <a-button style="margin-left: 8px"> 状态 <a-icon type="down" /> </a-button>
           </a-dropdown>
-          <a-button type="primary" icon="search">
+          <a-button type="primary" icon="search" style="background: #13CE66; border-color: #13CE66">
             搜索
           </a-button>
-          <a-button type="primary" icon="reload">
+          <a-button type="primary" icon="reload" style="background: #FFBA00; border-color: #FFBA00">
             重置
           </a-button>
           </div>
           <div class="searchBar table">
-            <a-button type="primary" icon="plus">新增</a-button>
-            <a-button type="primary" icon="edit">修改</a-button>
-            <a-button type="primary" icon="delete">删除</a-button>
-            <a-button type="primary" icon="download">导出</a-button>
+            <a-button type="primary" icon="plus" @click="changeState()">新增</a-button>
+            <a-button type="primary" icon="edit" style="background: #89E7B3; border-color: #89E7B3">修改</a-button>
+            <a-button type="primary" icon="delete" style="background: #FFA4A4; border-color: #FFA4A4">删除</a-button>
+            <a-button type="primary" icon="download" style="background: #FFBA00; border-color: #FFBA00">导出</a-button>
+            <Modal :visible1="addCount"></Modal>
           </div>
           <Table></Table>
         </div>
     </a-col>
   </a-row>
-
   </div>
+  
 </template>
 
 <script>
 import Timepicker from '../utils/TimePicker'
 import SearchTree from '../utils/SearchTree'
 import Table from '../utils/Table'
+import Modal from '../utils/Modal'
 
 export default {
-  components: { Timepicker, SearchTree, Table },
+  components: { Timepicker, SearchTree, Table, Modal },
+  data() {
+    return {
+      addCount: 0
+    }
+  },
+  methods: {
+    changeState() {
+      this.addCount += 1
+    }
+  }
   
 }
 </script>
@@ -56,6 +68,7 @@ export default {
   height: 100%;
   width: 100%;
   background: #ffffff;
+  padding: 20px;
 }
 
 .searchBar {

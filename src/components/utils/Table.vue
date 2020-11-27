@@ -109,3 +109,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.ant-table {
+  font-size: 12px;
+}
+</style>
